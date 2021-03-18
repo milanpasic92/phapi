@@ -1,6 +1,5 @@
 .idea/
-
 .phalcon/
-vendor/
 
+vendor/
 .env
