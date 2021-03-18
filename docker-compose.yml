@@ -1,0 +1,57 @@
+version: '2'
+services:
+  app:
+    image: 'milanpasa/phapi'
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: phapi_container
+    restart: always
+    ports:
+      - '${APP_UNSECURED_PORT}:80'
+      - '${APP_PORT}:443'
+    volumes:
+      - '.:/app'
+      - './certs/localhost:/certs'
+    networks:
+      - network
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+  db:
+    image: 'mysql:5.7.22'
+    container_name: phapi_db_container
+    restart: always
+    ports:
+      - '${DB_PORT}:3306'
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - 'db_data:/var/lib/mysql/'
+    networks:
+      - network
+  portainer:
+    image: portainer/portainer
+    container_name: phapi_portainer_container
+    restart: always
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - 'portainer_data:/data'
+    ports:
+      - '${PORTAINER_PORT}:9000'
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
+volumes:
+  db_data:
+    driver: local
+  portainer_data:
+    driver: local
+  app_data:
+    driver: local
+  app_backups:
+    driver: local

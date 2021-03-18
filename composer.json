@@ -1,0 +1,26 @@
+{
+  "name": "milanpasic92/phapi",
+  "version": "0.1",
+  "description": "Phalcon API skeleton app",
+  "homepage": "https://github.com/milanpasic92/phapi",
+  "license": "mit",
+  "require": {
+    "php": "~7.4",
+    "ext-intl": "*",
+    "monolog/monolog": "~2.2"
+  },
+  "require-dev": {
+    "phalcon/ide-stubs": "~4.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phapi\\Application\\": "app/application/",
+      "Phapi\\Config\\": "app/config/",
+      "Phapi\\Controllers\\": "app/controllers/",
+      "Phapi\\Exceptions\\": "app/exceptions/",
+      "Phapi\\Models\\": "app/models/",
+      "Phapi\\Services\\": "app/services/",
+      "Phapi\\Routes\\": "app/routes/"
+    }
+  }
+}

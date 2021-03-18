@@ -1,0 +1,6 @@
+.git
+.idea
+.phalcon
+vendor
+certs
+.env
