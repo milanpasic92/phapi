@@ -2,44 +2,47 @@
 
 namespace Phapi;
 
+use Phapi\Application\ConfigProvider;
+use Phapi\Application\ErrorHandler;
 use Phapi\Application\Logger;
 use Phapi\Application\Profiler;
 use Phapi\Application\Rest;
+use Phapi\Routes\Routes;
 use Phapi\Exceptions\BaseException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Events\Manager;
-use Phalcon\Http\Request;
-use Phapi\Routes\Routes;
+
+if(!defined('ROOT')) { define('ROOT', dirname(__DIR__));}
+if(!defined('APPLICATION_ENV')) { define('APPLICATION_ENV', getenv('APPLICATION_ENV'));}
+if(!defined('PROJECT_NAME')) { define('PROJECT_NAME', getenv('COMPOSE_PROJECT_NAME'));}
 
 class App
 {
-    /* TODO: caching layer with annotations https://docs.phalcon.io/4.0/en/annotations */
-
     private \Phalcon\Mvc\Micro $app;
     private \Phalcon\Config $config;
 
-    public function __construct(\Phalcon\Config $config)
+    public function __construct()
     {
-        $this->config = $config;
+        $this->autoload();
+
+        $configProvider = new ConfigProvider();
+        $this->config = $this->config = $configProvider->get();
+
+        $this->registerNamespaces();
+        ErrorHandler::run();
     }
 
     public function run()
     {
-        include ROOT . '/config/error_handler.php';
         $di = new \Phalcon\DI\FactoryDefault();
-
-        $this->autoload();
-        $this->registerNamespaces();
 
         $registry = new \Phalcon\Registry();
         $di->setShared('registry', $registry);
 
         $di->setShared('config', $this->config);
-        $di->setShared('response', $this->response());
-        $di->setShared('request', new Request());
-        $di->set("rest", new Rest());
-        $di->set("db", $this->setDbConnection());
+        $di->setShared("rest", new Rest());
         $di->setShared('logger', new Logger());
+        $di->setShared("db", $this->setDbConnection());
 
         $this->initEventsManager();
 
@@ -47,7 +50,6 @@ class App
             $this->app = new \Phalcon\Mvc\Micro();
             $this->app->setDI($di);
 
-            //$this->registerRoutes();
             $routes = new Routes($this->app);
             $routes->init();
 
@@ -64,7 +66,7 @@ class App
     }
 
     private function autoload(){
-        require_once ROOT . '/../vendor/autoload.php';
+        require_once ROOT . '/vendor/autoload.php';
     }
 
     private function registerNamespaces(){
@@ -79,14 +81,6 @@ class App
         $loader->register();
 
         return $loader;
-    }
-
-    private function response()
-    {
-        $response = new \Phalcon\Http\Response();
-        $response->setContentType('application/json', 'utf-8');
-
-        return $response;
     }
 
     private function setDbConnection(){

@@ -1,12 +1,21 @@
 {
   "name": "milanpasic92/phapi",
+  "type": "framework",
   "version": "0.1",
   "description": "Phalcon API skeleton app",
   "homepage": "https://github.com/milanpasic92/phapi",
   "license": "mit",
+  "keywords": ["php","phalcon","api"],
+  "authors": [
+    {
+      "name": "Milan Pasic",
+      "email": "milanpasic92@gmail.com"
+    }
+  ],
   "require": {
     "php": "~7.4",
     "ext-intl": "*",
+    "ext-json": "*",
     "monolog/monolog": "~2.2"
   },
   "require-dev": {
@@ -15,7 +24,6 @@
   "autoload": {
     "psr-4": {
       "Phapi\\Application\\": "app/application/",
-      "Phapi\\Config\\": "app/config/",
       "Phapi\\Controllers\\": "app/controllers/",
       "Phapi\\Exceptions\\": "app/exceptions/",
       "Phapi\\Models\\": "app/models/",
