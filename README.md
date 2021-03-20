@@ -12,4 +12,8 @@ It provides skeleton project structure and few common needed modules and compone
  - *JWT auth implementation for issuing and/or verifying tokens
  - *Model caching layer via annotations
  
+ 
+The project implements open-source JSON:API specification and all response/requests formats have been structured per:
+[https://jsonapi.org/format/](https://jsonapi.org/format/)
+ 
 more details to come.
