@@ -28,7 +28,8 @@
       "Phapi\\Exceptions\\": "app/exceptions/",
       "Phapi\\Models\\": "app/models/",
       "Phapi\\Services\\": "app/services/",
-      "Phapi\\Routes\\": "app/routes/"
+      "Phapi\\Routes\\": "app/routes/",
+      "Phapi\\": "app/"
     }
   }
 }

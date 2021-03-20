@@ -12,18 +12,18 @@ use Phapi\Exceptions\BaseException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Events\Manager;
 
-if(!defined('ROOT')) { define('ROOT', dirname(__DIR__));}
-if(!defined('APPLICATION_ENV')) { define('APPLICATION_ENV', getenv('APPLICATION_ENV'));}
-if(!defined('PROJECT_NAME')) { define('PROJECT_NAME', getenv('COMPOSE_PROJECT_NAME'));}
-
 class App
 {
-    private \Phalcon\Mvc\Micro $app;
-    private \Phalcon\Config $config;
+    protected \Phalcon\Mvc\Micro $app;
+    protected \Phalcon\Config $config;
 
     public function __construct()
     {
-        $this->autoload();
+        if(!defined('ROOT')) { define('ROOT', dirname(__DIR__));}
+        if(!defined('APPLICATION_ENV')) { define('APPLICATION_ENV', getenv('APPLICATION_ENV'));}
+        if(!defined('PROJECT_NAME')) { define('PROJECT_NAME', getenv('COMPOSE_PROJECT_NAME'));}
+
+        require_once ROOT . '/vendor/autoload.php';
 
         $configProvider = new ConfigProvider();
         $this->config = $this->config = $configProvider->get();
@@ -32,6 +32,10 @@ class App
         ErrorHandler::run();
     }
 
+    /**
+     * This is just an example.
+     * Best way to use it to overwrite run() method and init your own $di
+    */
     public function run()
     {
         $di = new \Phalcon\DI\FactoryDefault();
@@ -65,11 +69,7 @@ class App
         }
     }
 
-    private function autoload(){
-        require_once ROOT . '/vendor/autoload.php';
-    }
-
-    private function registerNamespaces(){
+    protected function registerNamespaces(){
         $loader = new \Phalcon\Loader();
 
         $namespaces = [];
@@ -83,7 +83,7 @@ class App
         return $loader;
     }
 
-    private function setDbConnection(){
+    protected function setDbConnection(){
         return new Mysql(
             [
                 "host"     => $this->config->database->host,
@@ -94,7 +94,7 @@ class App
         );
     }
 
-    private function initEventsManager(){
+    protected function initEventsManager(){
         $eventsManager = new Manager();
         $profiler = new Profiler();
 
