@@ -20,8 +20,8 @@ class UsersController extends BaseController
     public function indexAction()
     {
         return [
-            "success" => true,
-            "data" => 'hello world.'
+            "data" => 'hello world.',
+            "meta" => 'meta'
         ];
     }
 

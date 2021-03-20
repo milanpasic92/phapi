@@ -33,7 +33,7 @@ class Logger extends Injectable {
 
     public function log($data)
     {
-        if($data['success']) {
+        if(!isset($data['errors'])) {
             $this->logger->info(json_encode($data));
         }
         else {

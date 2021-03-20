@@ -23,15 +23,18 @@ class BaseException extends Exception{
         $di = \Phalcon\DI::getDefault();
 
         $data = [
-            'success' => false,
-            'data' => [
-                'message' => $this->getMessage(),
-                'code' => $this->getCode(),
-                'file' => $this->file,
-                'severity' => $this->severity,
-                'line' => $this->line
+            'errors' => [
+                [
+                    'message' => $this->getMessage(),
+                    'code' => $this->getCode(),
+                    'file' => $this->file,
+                    'severity' => $this->severity,
+                    'line' => $this->line
+                    ]
                 ],
-            'message' => PROJECT_NAME . 'APIError'
+            'meta' => [
+                'status_code' => 400
+            ]
         ];
 
         $di->get('logger')->log($data);

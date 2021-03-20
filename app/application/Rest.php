@@ -26,11 +26,11 @@ class Rest extends Injectable {
 
         if (is_array($content))
         {
-            if($content['success']){
+            if(!isset($content['errors'])){
                 $this->response->setStatusCode(200, 'OK');
             }
             else{
-                $this->response->setStatusCode(400, 'Bad Request');
+                $this->response->setStatusCode($content['meta']['status_code']);
             }
 
             $this->response->setContent(json_encode($content));
