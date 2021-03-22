@@ -2,11 +2,13 @@
 
 namespace Phapi;
 
+use Phapi\Application\AuthMiddleware;
 use Phapi\Application\ConfigProvider;
+use Phapi\Application\ContentNegotiationMiddleware;
 use Phapi\Application\ErrorHandler;
 use Phapi\Application\Logger;
-use Phapi\Application\Profiler;
 use Phapi\Application\Rest;
+use Phapi\Exceptions\ApiException;
 use Phapi\Routes\Routes;
 use Phapi\Exceptions\BaseException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -46,13 +48,15 @@ class App
         $di->setShared('config', $this->config);
         $di->setShared("rest", new Rest());
         $di->setShared('logger', new Logger());
-        $di->setShared("db", $this->setDbConnection());
-
-        $this->initEventsManager();
 
         try{
             $this->app = new \Phalcon\Mvc\Micro();
             $this->app->setDI($di);
+
+            $this->resolveProfiler($di);
+
+            $this->setDbConnection($di);
+            $this->initEventsManager($di);
 
             $routes = new Routes($this->app);
             $routes->init();
@@ -65,6 +69,9 @@ class App
             $this->app->handle($di->get('request')->getURI());
         }
         catch (BaseException $e){
+            $e->handle();
+        }
+        catch (ApiException $e){
             $e->handle();
         }
     }
@@ -83,21 +90,64 @@ class App
         return $loader;
     }
 
-    protected function setDbConnection(){
-        return new Mysql(
-            [
-                "host"     => $this->config->database->host,
-                "username" => $this->config->database->username,
-                "password" => $this->config->database->password,
-                "dbname"   => $this->config->database->dbname,
-            ]
-        );
+    protected function setDbConnection($di){
+        $di->set('profiler', function () { return new \Phalcon\Db\Profiler();}, true );
+        $di->setShared("db", function () use ($di) {
+            $config = $di->get('config');
+
+            $connection = new Mysql(
+                [
+                    "host"     => $config->database->host,
+                    "username" => $config->database->username,
+                    "password" => $config->database->password,
+                    "dbname"   => $config->database->dbname,
+                ]
+            );
+
+            if($di->get('registry')->get('profilerEnabled')) {
+                $manager = new Manager();
+                $profiler = $di->getProfiler();
+
+                $manager->attach(
+                    'db',
+                    function ($event, $connection) use ($profiler) {
+                        if ($event->getType() === 'beforeQuery') {
+                            $profiler->startProfile(
+                                $connection->getSQLStatement()
+                            );
+                        }
+
+                        if ($event->getType() === 'afterQuery') {
+                            $profiler->stopProfile();
+                        }
+                    }
+                );
+                $connection->setEventsManager($manager);
+            }
+
+            return $connection;
+        });
     }
 
-    protected function initEventsManager(){
-        $eventsManager = new Manager();
-        $profiler = new Profiler();
+    protected function resolveProfiler($di){
+        $profilerEnabled = false;
+        if($this->config->profilerEnabled == 1){
+            $profilerEnabled = true;
+        }
+        if($di->get('rest')->request->getQuery('profiler_enabled') == 1){
+            $profilerEnabled = true;
+        }
 
-        $eventsManager->attach('db', $profiler);
+        $di->get('registry')->set('profilerEnabled', $profilerEnabled);
+    }
+
+    protected function initEventsManager($di){
+
+        $eventsManager = new Manager();
+
+        $eventsManager->attach('micro:beforeExecuteRoute', new ContentNegotiationMiddleware());
+        $eventsManager->attach('micro:beforeExecuteRoute', new AuthMiddleware());
+
+        $this->app->setEventsManager($eventsManager);
     }
 }

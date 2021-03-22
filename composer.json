@@ -29,6 +29,7 @@
       "Phapi\\Models\\": "app/models/",
       "Phapi\\Services\\": "app/services/",
       "Phapi\\Routes\\": "app/routes/",
+      "Phapi\\Utility\\": "app/utility/",
       "Phapi\\": "app/"
     }
   }

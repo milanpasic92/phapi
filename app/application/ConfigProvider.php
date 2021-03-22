@@ -17,6 +17,7 @@ class ConfigProvider{
     private function init(){
         $this->config = new \Phalcon\Config(
             [
+                'profilerEnabled' => getenv('PROFILER_ENABLED'),
                 'database' => [
                     'adapter' => 'Mysql',
                     'host'     => getenv('DB_HOST') . ':' . getenv('DB_PORT'),
@@ -50,6 +51,7 @@ class ConfigProvider{
                     'Phapi\Models'       => '/app/models/',
                     'Phapi\Services'     => '/app/services/',
                     'Phapi\Routes'       => '/app/routes/',
+                    'Phapi\Utility'       => '/app/utility/',
                 ]
             ]
         );

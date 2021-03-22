@@ -2,8 +2,8 @@
 
 namespace Phapi\Application;
 
-use Phapi\Exceptions\ApiException;
 use Phalcon\Di\Injectable;
+use Phapi\Utility\ApplicationUtil;
 
 class Rest extends Injectable {
 
@@ -19,26 +19,25 @@ class Rest extends Injectable {
         $this->request = new \Phalcon\Http\Request();
     }
 
-    public function sendResponse($content){
+    public function sendResponse(array $content){
+        $di = \Phalcon\DI::getDefault();
+
         $this->response->setContentType(self::CONTENT_TYPE, self::ENCODING);
         $this->response->setHeader('X-PHP-Version', PHP_VERSION);
         $this->response->setHeader('X-Phalcon-Version', \Phalcon\Version::get());
 
-        if (is_array($content))
-        {
-            if(!isset($content['errors'])){
-                $this->response->setStatusCode(200, 'OK');
-            }
-            else{
-                $this->response->setStatusCode($content['meta']['status_code']);
-            }
-
-            $this->response->setContent(json_encode($content));
+        if(!isset($content['errors'])){
+            $this->response->setStatusCode(200, 'OK');
         }
-        else {
-            throw new ApiException('Internal API error.', 400);
+        else{
+            $this->response->setStatusCode($content['meta']['status_code']);
         }
 
+        if($di->get('registry')->get('profilerEnabled')){
+            $content['profiler'] = ApplicationUtil::getProfilerData();
+        }
+
+        $this->response->setContent(json_encode($content));
         $this->response->send();
     }
 }

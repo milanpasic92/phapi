@@ -43,6 +43,14 @@ services:
       - '${PORTAINER_PORT}:9000'
     networks:
       - network
+  adminer:
+    image: adminer
+    container_name: phapi_adminer_container
+    restart: always
+    ports:
+      - '${ADMINER_PORT}:8080'
+    networks:
+      - network
 networks:
   network:
     driver: bridge
