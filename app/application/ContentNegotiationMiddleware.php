@@ -12,8 +12,10 @@ class ContentNegotiationMiddleware
         if (strpos($contentType, 'application/json') !== false) {
             $rawBody = $request->getJsonRawBody(true);
             if ($request->isPost()) {
-                foreach ($rawBody as $key => $value) {
-                    $_POST[$key] = $value;
+                if(is_array($rawBody)) {
+                    foreach ($rawBody as $key => $value) {
+                        $_POST[$key] = $value;
+                    }
                 }
             }
         }

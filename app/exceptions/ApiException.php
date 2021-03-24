@@ -3,6 +3,7 @@
 namespace Phapi\Exceptions;
 
 use Phalcon\Exception;
+use Phapi\Application\ApiError;
 
 class ApiException extends Exception{
 
@@ -13,7 +14,8 @@ class ApiException extends Exception{
             'errors' => [
                 [
                     'err_key' => 'internal_error',
-                    'message' => 'Internal API error'
+                    'message' => 'Internal API error',
+                    'details' => $this->getMessage(),
                 ]
             ],
             'meta' => [
@@ -22,6 +24,8 @@ class ApiException extends Exception{
         ];
 
         $di->get('logger')->log($data);
-        $di->get('rest')->sendResponse($data);
+
+        $response = new ApiError($data['errors'], $data['meta']);
+        $di->get('rest')->sendResponse($response);
     }
 }

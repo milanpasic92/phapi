@@ -16,7 +16,8 @@
     "php": "~7.4",
     "ext-intl": "*",
     "ext-json": "*",
-    "monolog/monolog": "~2.2"
+    "monolog/monolog": "~2.2",
+    "firebase/php-jwt": "~5.2"
   },
   "require-dev": {
     "phalcon/ide-stubs": "~4.1"

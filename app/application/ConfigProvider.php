@@ -18,6 +18,10 @@ class ConfigProvider{
         $this->config = new \Phalcon\Config(
             [
                 'profilerEnabled' => getenv('PROFILER_ENABLED'),
+
+                'jwtIssuer'       => getenv('JWT_ISSUER'),
+                'jwtKey'          => getenv('JWT_KEY'),
+
                 'database' => [
                     'adapter' => 'Mysql',
                     'host'     => getenv('DB_HOST') . ':' . getenv('DB_PORT'),

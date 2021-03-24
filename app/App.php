@@ -2,6 +2,8 @@
 
 namespace Phapi;
 
+use Phapi\Application\ACL;
+use Phapi\Application\ACLMiddleware;
 use Phapi\Application\AuthMiddleware;
 use Phapi\Application\ConfigProvider;
 use Phapi\Application\ContentNegotiationMiddleware;
@@ -48,6 +50,7 @@ class App
         $di->setShared('config', $this->config);
         $di->setShared("rest", new Rest());
         $di->setShared('logger', new Logger());
+        $di->setShared('acl', new ACL());
 
         try{
             $this->app = new \Phalcon\Mvc\Micro();
@@ -55,11 +58,11 @@ class App
 
             $this->resolveProfiler($di);
 
-            $this->setDbConnection($di);
-            $this->initEventsManager($di);
-
             $routes = new Routes($this->app);
             $routes->init();
+
+            $this->setDbConnection($di);
+            $this->initEventsManager($di);
 
             $this->app->after(function () use ($di) {
                 $di->get('rest')->sendResponse($this->app->getReturnedValue());
@@ -113,7 +116,7 @@ class App
                     function ($event, $connection) use ($profiler) {
                         if ($event->getType() === 'beforeQuery') {
                             $profiler->startProfile(
-                                $connection->getSQLStatement()
+                                $connection->getSQLStatement(),
                             );
                         }
 
@@ -146,7 +149,7 @@ class App
         $eventsManager = new Manager();
 
         $eventsManager->attach('micro:beforeExecuteRoute', new ContentNegotiationMiddleware());
-        $eventsManager->attach('micro:beforeExecuteRoute', new AuthMiddleware());
+        $eventsManager->attach('micro:beforeExecuteRoute', new AuthMiddleware($this->app));
 
         $this->app->setEventsManager($eventsManager);
     }

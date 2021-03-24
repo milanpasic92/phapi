@@ -4,7 +4,7 @@ namespace Phapi\Exceptions;
 
 use Phapi\Application\ApiError;
 
-class NotFoundException extends BaseException {
+class ForbiddenException extends BaseException {
 
     public function handle(){
         $di = \Phalcon\DI::getDefault();
@@ -12,12 +12,12 @@ class NotFoundException extends BaseException {
         $data = [
             'errors' => [
                 [
-                    'err_key' => 'route_not_fond',
-                    'message' => 'Route not found'
+                    'err_key' => 'forbidden',
+                    'message' => 'Access to content forbidden due to role or some other restriction.'
                 ]
             ],
             'meta' => [
-                'status_code' => 404
+                'status_code' => 403
             ]
         ];
 

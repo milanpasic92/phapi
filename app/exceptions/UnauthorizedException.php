@@ -4,7 +4,7 @@ namespace Phapi\Exceptions;
 
 use Phapi\Application\ApiError;
 
-class NotFoundException extends BaseException {
+class UnauthorizedException extends BaseException {
 
     public function handle(){
         $di = \Phalcon\DI::getDefault();
@@ -12,12 +12,12 @@ class NotFoundException extends BaseException {
         $data = [
             'errors' => [
                 [
-                    'err_key' => 'route_not_fond',
-                    'message' => 'Route not found'
+                    'err_key' => 'unauthorized',
+                    'message' => 'JWT token expired or invalid'
                 ]
             ],
             'meta' => [
-                'status_code' => 404
+                'status_code' => 401
             ]
         ];
 

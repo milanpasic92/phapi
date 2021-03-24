@@ -7,27 +7,25 @@ class ApplicationUtil{
     public static function getProfilerData(){
         $di = \Phalcon\DI::getDefault();
         $profiler = $di->get('profiler');
-
-        $now = date("Y-m-d H:i:s");
-
-        $date = new \DateTime();
-        $timestamp = $date->getTimestamp();
+        $profiles = $profiler->getProfiles();
 
         $data = [];
-        foreach ($profiler->getProfiles() as $profile) {
-            $data[] = [
-                'query' => $profile->getSQLStatement(),
-                'start_time' => $profile->getInitialTime(),
-                'end_time' => $profile->getFinalTime(),
-                'elapsed_miliseconds' => $profile->getTotalElapsedSeconds(),
-            ];
+        if(!empty($profiles)) {
+            foreach ($profiles as $profile) {
+                $data[] = [
+                    'query' => $profile->getSQLStatement(),
+                    'start_time' => $profile->getInitialTime(),
+                    'end_time' => $profile->getFinalTime(),
+                    'elapsed_nanoseconds' => $profile->getTotalElapsedSeconds(),
+                ];
+            }
         }
 
         return [
+            'unix_timestamp' => time(),
             'total_queries' => $profiler->getNumberTotalStatements(),
-            'total_seconds' => $profiler->getTotalElapsedSeconds(),
+            'total_nanoseconds' => $profiler->getTotalElapsedSeconds(),
             'queries' => $data,
         ];
     }
-
 }

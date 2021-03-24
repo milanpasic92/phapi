@@ -2,14 +2,17 @@
 
 namespace Phapi\Controllers;
 
+use Phapi\Application\ApiResponse;
 use Phapi\Models\AdminUser;
 
 class UsersController extends BaseController
 {
     /**
-     * Adding user
+     * Returns user list
+     *
+     * @return ApiResponse
      */
-    public function addAction()
+    public function indexAction()
     {
         $limit = $this->request->getQuery('limit', 'int', 10);
         $page = $this->request->getQuery('page', 'int', 1);
@@ -28,46 +31,42 @@ class UsersController extends BaseController
         ]);
         $items = $paginator->paginate();
 
-        return [
-            'data' => $items->getItems(),
-            'meta' => [
-                'page' => $page,
-                'limit' => $limit,
-                'total_items' => $items->getTotalItems()
-            ],
-        ];
+        return new ApiResponse($items->getItems(), [
+            'page' => $page,
+            'limit' => $limit,
+            'total_items' => $items->getTotalItems()
+        ]);
     }
 
     /**
-     * Returns user list
+     * Adding user
      *
-     * @return array
+     * @return ApiResponse
      */
-    public function indexAction()
+    public function addAction()
     {
-        return [
-            "data" => 'hello world.',
-            "meta" => 'meta'
-        ];
+        return new ApiResponse('ce bude');
     }
 
     /**
      * Updating existing user
      *
      * @param int $userId
+     * @return ApiResponse
      */
-    public function updateAction($userId)
+    public function updateAction(int $userId)
     {
-
+        return new ApiResponse('ce bude');
     }
 
     /**
      * Delete an existing user
      *
      * @param int $userId
+     * @return ApiResponse
      */
-    public function deleteAction($userId)
+    public function deleteAction(int $userId)
     {
-
+        return new ApiResponse('ce bude');
     }
 }

@@ -3,6 +3,7 @@
 namespace Phapi\Exceptions;
 
 use Phalcon\Exception;
+use Phapi\Application\ApiError;
 use Throwable;
 
 class BaseException extends Exception{
@@ -38,7 +39,9 @@ class BaseException extends Exception{
         ];
 
         $di->get('logger')->log($data);
-        $di->get('rest')->sendResponse($data);
+
+        $response = new ApiError($data['errors'], $data['meta']);
+        $di->get('rest')->sendResponse($response);
     }
 
 }
