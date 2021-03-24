@@ -2,10 +2,10 @@
 
 namespace Phapi\Application;
 
-use Monolog\Handler\MissingExtensionException;
 use Phalcon\Di\Injectable;
 
-class ApiUser extends Injectable {
+class ApiUser extends Injectable
+{
 
     public array $data;
     public string $token;

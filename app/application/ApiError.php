@@ -2,7 +2,8 @@
 
 namespace Phapi\Application;
 
-class ApiError{
+class ApiError
+{
 
     public array $errors;
     public array $meta;

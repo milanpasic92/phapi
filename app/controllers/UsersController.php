@@ -2,6 +2,7 @@
 
 namespace Phapi\Controllers;
 
+use Phalcon\Paginator\Adapter\Model;
 use Phapi\Application\ApiResponse;
 use Phapi\Models\AdminUser;
 
@@ -17,8 +18,8 @@ class UsersController extends BaseController
         $limit = $this->request->getQuery('limit', 'int', 10);
         $page = $this->request->getQuery('page', 'int', 1);
 
-        $paginator = new \Phalcon\Paginator\Adapter\Model([
-            "model"      => AdminUser::class,
+        $paginator = new Model([
+            "model" => AdminUser::class,
             "parameters" => [
                 "active = :activeFlag:",
                 "bind" => [

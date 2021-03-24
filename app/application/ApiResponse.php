@@ -2,7 +2,10 @@
 
 namespace Phapi\Application;
 
-class ApiResponse{
+use Phalcon\DI;
+
+class ApiResponse
+{
 
     /** @var string|int|array $data */
     public $data;
@@ -13,8 +16,8 @@ class ApiResponse{
         $this->data = $data;
         $this->meta = $meta;
 
-        $di = \Phalcon\DI::getDefault();
-        if($di->has('user')) {
+        $di = DI::getDefault();
+        if ($di->has('user')) {
             $this->meta['access_token'] = $di->get('user')->token;
         }
     }

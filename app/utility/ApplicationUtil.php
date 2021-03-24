@@ -2,15 +2,19 @@
 
 namespace Phapi\Utility;
 
-class ApplicationUtil{
+use Phalcon\DI;
 
-    public static function getProfilerData(){
-        $di = \Phalcon\DI::getDefault();
+class ApplicationUtil
+{
+
+    public static function getProfilerData()
+    {
+        $di = DI::getDefault();
         $profiler = $di->get('profiler');
         $profiles = $profiler->getProfiles();
 
         $data = [];
-        if(!empty($profiles)) {
+        if (!empty($profiles)) {
             foreach ($profiles as $profile) {
                 $data[] = [
                     'query' => $profile->getSQLStatement(),

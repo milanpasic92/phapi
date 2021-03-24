@@ -2,11 +2,12 @@
 
 namespace Phapi\Exceptions;
 
+use Phalcon\DI;
 use Phalcon\Exception;
 use Phapi\Application\ApiError;
-use Throwable;
 
-class BaseException extends Exception{
+class BaseException extends Exception
+{
 
     protected $file;
     protected $line;
@@ -20,8 +21,9 @@ class BaseException extends Exception{
         parent::__construct($message, $code);
     }
 
-    public function handle(){
-        $di = \Phalcon\DI::getDefault();
+    public function handle()
+    {
+        $di = DI::getDefault();
 
         $data = [
             'errors' => [
@@ -31,8 +33,8 @@ class BaseException extends Exception{
                     'file' => $this->file,
                     'severity' => $this->severity,
                     'line' => $this->line
-                    ]
-                ],
+                ]
+            ],
             'meta' => [
                 'status_code' => 400
             ]

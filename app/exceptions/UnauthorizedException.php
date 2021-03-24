@@ -2,12 +2,15 @@
 
 namespace Phapi\Exceptions;
 
+use Phalcon\DI;
 use Phapi\Application\ApiError;
 
-class UnauthorizedException extends BaseException {
+class UnauthorizedException extends BaseException
+{
 
-    public function handle(){
-        $di = \Phalcon\DI::getDefault();
+    public function handle()
+    {
+        $di = DI::getDefault();
 
         $data = [
             'errors' => [

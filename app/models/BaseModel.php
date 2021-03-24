@@ -2,7 +2,9 @@
 
 namespace Phapi\Models;
 
-abstract class BaseModel extends \Phalcon\Mvc\Model
+use Phalcon\Mvc\Model;
+
+abstract class BaseModel extends Model
 {
     /* TODO: caching layer with annotations https://docs.phalcon.io/4.0/en/annotations */
 }

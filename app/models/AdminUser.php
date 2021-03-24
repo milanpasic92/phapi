@@ -9,6 +9,11 @@ use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 class AdminUser extends BaseModel
 {
 
+    public static array $roles = [
+        'professor' => 'professor',
+        'admin' => 'Admin',
+        'super_admin' => 'Super Admin',
+    ];
     private int $id;
     private string $role;
     private string $login;
@@ -19,12 +24,6 @@ class AdminUser extends BaseModel
     private int $fk_school_id;
     private ?string $magic_link;
     private int $accepted_gdpr;
-
-    public static array $roles = [
-        'professor' => 'professor',
-        'admin' => 'Admin',
-        'super_admin' => 'Super Admin',
-    ];
 
     public function initialize()
     {

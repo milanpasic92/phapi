@@ -2,7 +2,9 @@
 
 namespace Phapi\Controllers;
 
-abstract class BaseController extends \Phalcon\DI\Injectable
+use Phalcon\DI\Injectable;
+
+abstract class BaseController extends Injectable
 {
 
 }

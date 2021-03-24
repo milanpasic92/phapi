@@ -5,9 +5,11 @@ namespace Phapi\Utility;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
+use Phalcon\DI;
 use Phapi\Exceptions\UnauthorizedException;
 
-class Auth{
+class Auth
+{
 
     // Currently implementing Sliding expiration
     // https://github.com/jacobslusser/JwtAuthRenewWebApi/blob/master/docs/Sliding-Expiration.md
@@ -15,8 +17,9 @@ class Auth{
     const ALGO = "HS512";
     const EXPIRE_DAYS = 1;
 
-    public static function issue(array $data){
-        $config = \Phalcon\DI::getDefault()->get('config');
+    public static function issue(array $data)
+    {
+        $config = DI::getDefault()->get('config');
 
         $payload = array(
             "iss" => $config->jwtIssuer,
@@ -30,16 +33,15 @@ class Auth{
         return JWT::encode($payload, $config->jwtKey, self::ALGO);
     }
 
-    public static function parse(string $token){
-        $config = \Phalcon\DI::getDefault()->get('config');
+    public static function parse(string $token)
+    {
+        $config = DI::getDefault()->get('config');
 
         try {
             $data = JWT::decode($token, $config->jwtKey, [self::ALGO]);
-        }
-        catch (SignatureInvalidException $e){
+        } catch (SignatureInvalidException $e) {
             throw new UnauthorizedException();
-        }
-        catch (ExpiredException $e){
+        } catch (ExpiredException $e) {
             throw new UnauthorizedException();
         }
 
@@ -49,7 +51,8 @@ class Auth{
     /** Phalcon has philosophical issues with parsing headers that do not have HTTP_ prefix
      * https://forum.phalcon.io/discussion/10137/accessing-authorization-custom-request-headers
      */
-    public static function getAuthTokenFromHeaders(){
+    public static function getAuthTokenFromHeaders()
+    {
         $headers = getallheaders();
         $token = $headers['Authorization'];
 

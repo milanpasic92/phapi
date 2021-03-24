@@ -2,13 +2,16 @@
 
 namespace Phapi\Exceptions;
 
+use Phalcon\DI;
 use Phalcon\Exception;
 use Phapi\Application\ApiError;
 
-class ApiException extends Exception{
+class ApiException extends Exception
+{
 
-    public function handle(){
-        $di = \Phalcon\DI::getDefault();
+    public function handle()
+    {
+        $di = DI::getDefault();
 
         $data = [
             'errors' => [

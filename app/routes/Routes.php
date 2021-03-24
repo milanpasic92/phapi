@@ -2,32 +2,39 @@
 
 namespace Phapi\Routes;
 
-class Routes{
+use Phalcon\DI;
+use Phalcon\Mvc\Micro\Collection;
+use Phapi\Exceptions\NotFoundException;
 
-    protected $app;
+class Routes
+{
+
     public array $publicRoutes = ['/identity/login', '/identity/password-reset'];
+    protected $app;
 
     public function __construct($app)
     {
         $this->app = $app;
     }
 
-    public function init(){
+    public function init()
+    {
         $this->initIdentity();
         $this->initUsers();
 
         $this->app->notFound(
             function () {
-                throw new \Phapi\Exceptions\NotFoundException();
+                throw new NotFoundException();
             }
         );
 
-        $di = \Phalcon\DI::getDefault();
+        $di = DI::getDefault();
         $di->get('registry')->set('publicApiRoutes', $this->publicRoutes);
     }
 
-    private function initIdentity(){
-        $identityCollection = new \Phalcon\Mvc\Micro\Collection();
+    private function initIdentity()
+    {
+        $identityCollection = new Collection();
 
         $identityCollection->setHandler('\Phapi\Controllers\IdentityController', true);
         $identityCollection->setPrefix('/identity');
@@ -38,8 +45,9 @@ class Routes{
         $this->app->mount($identityCollection);
     }
 
-    private function initUsers(){
-        $usersCollection = new \Phalcon\Mvc\Micro\Collection();
+    private function initUsers()
+    {
+        $usersCollection = new Collection();
 
         $usersCollection->setHandler('\Phapi\Controllers\UsersController', true);
         $usersCollection->setPrefix('/users');
