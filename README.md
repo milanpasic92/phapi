@@ -7,9 +7,10 @@ It provides skeleton project structure and few common needed modules and compone
  - Routing component
  - Exceptions and error handling
  - Logger (currently supports slack and loggly agents)
- - *Profiler
+ - Profiler
+ - ACL
  - *Repository layer
- - *JWT auth implementation for issuing and/or verifying tokens
+ - JWT auth implementation for issuing and/or verifying tokens
  - *Model caching layer via annotations
  
  
