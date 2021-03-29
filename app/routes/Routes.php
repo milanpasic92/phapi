@@ -8,8 +8,6 @@ use Phapi\Exceptions\NotFoundException;
 
 class Routes
 {
-
-    public array $publicRoutes = ['/identity/login', '/identity/password-reset'];
     protected $app;
 
     public function __construct($app)
@@ -29,7 +27,8 @@ class Routes
         );
 
         $di = DI::getDefault();
-        $di->get('registry')->set('publicApiRoutes', $this->publicRoutes);
+        $publicRoutes = $di->get('acl')->publicApiRoutes;
+        $di->get('registry')->set('publicApiRoutes', $publicRoutes);
     }
 
     private function initIdentity()

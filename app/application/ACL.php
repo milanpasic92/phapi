@@ -11,6 +11,8 @@ class ACL
 {
     public Memory $acl;
 
+    public array $publicApiRoutes = ['/identity/login', '/identity/password-reset'];
+
     protected array $resources = [
         'guest' => [
             'IdentityController' => ['loginAction', 'resetPasswordAction'],
