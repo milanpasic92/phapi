@@ -4,6 +4,7 @@ namespace Phapi\Application;
 
 use Phalcon\DI;
 use Phalcon\Mvc\Micro;
+use Phapi\Exceptions\ApiException;
 use Phapi\Exceptions\BaseException;
 use Phapi\Exceptions\ForbiddenException;
 use Phapi\Exceptions\UnauthorizedException;
@@ -27,12 +28,22 @@ class AuthMiddleware
     public function beforeExecuteRoute()
     {
         $route = $this->di->get('rest')->request->getURI();
+        $publicApiRoutes = $this->di->get('registry')->get('publicApiRoutes');
 
-        if (in_array($route, $this->di->get('registry')->get('publicApiRoutes'))) {
+        if(!$publicApiRoutes){
+            throw new ApiException('publicApiRoutes not declared');
+        }
+
+        if (in_array($route, $publicApiRoutes)) {
             return true;
         }
 
         $token = Auth::getAuthTokenFromHeaders();
+
+        if(!$token){
+            throw new UnauthorizedException();
+        }
+
         $payload = Auth::parse($token);
 
         try {
@@ -60,6 +71,10 @@ class AuthMiddleware
         $arrHandler = $this->app->getActiveHandler();
         $controllerArr = explode('Controllers\\', $arrHandler[0]->getDefinition());
         $controllerName = end($controllerArr);
+
+        if(!isset($apiUser->data['role'])){
+            throw new ForbiddenException('JWT invalid: role claim is missing.');
+        }
 
         $isAllowed = $this->di->get('acl')->acl->isAllowed($apiUser->data['role'], $controllerName, $arrHandler[1]);
 

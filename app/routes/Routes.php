@@ -40,7 +40,7 @@ class Routes
         $identityCollection->setPrefix('/identity');
 
         $identityCollection->post('/login', 'loginAction');
-        $identityCollection->get('/password-reset', 'passwordResetAction');
+        $identityCollection->post('/password-reset', 'passwordResetAction');
 
         $this->app->mount($identityCollection);
     }
@@ -52,8 +52,8 @@ class Routes
         $usersCollection->setHandler('\Phapi\Controllers\UsersController', true);
         $usersCollection->setPrefix('/users');
 
-        $usersCollection->post('/add', 'addAction');
         $usersCollection->get('/', 'indexAction');
+        $usersCollection->post('/', 'addAction');
         $usersCollection->put('/{userId:[1-9][0-9]*}', 'updateAction');
         $usersCollection->delete('/{userId:[1-9][0-9]*}', 'deleteAction');
 

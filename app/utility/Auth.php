@@ -54,8 +54,11 @@ class Auth
     public static function getAuthTokenFromHeaders()
     {
         $headers = getallheaders();
-        $token = $headers['Authorization'];
 
-        return str_replace('Bearer ', '', $token);
+        if(isset($headers['Authorization']) && !empty($headers['Authorization'])){
+            return str_replace('Bearer ', '', $headers['Authorization']);
+        }
+
+        return false;
     }
 }

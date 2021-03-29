@@ -15,10 +15,7 @@ class IdentityController extends BaseController
      */
     public function loginAction()
     {
-        $matchedUser = [
-            'id' => 44,
-            'role' => 'restrictedUser'
-        ];
+        $matchedUser = $this->rest->request->getPost();
 
         $token = Auth::issue($matchedUser);
         $this->di->set('user', new ApiUser($matchedUser, $token));

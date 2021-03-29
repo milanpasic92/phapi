@@ -16,7 +16,8 @@ class ForbiddenException extends BaseException
             'errors' => [
                 [
                     'err_key' => 'forbidden',
-                    'message' => 'Access to content forbidden due to role or some other restriction.'
+                    'message' => 'Access to content forbidden due to role or some other restriction.',
+                    'details' => $this->getMessage(),
                 ]
             ],
             'meta' => [
