@@ -61,6 +61,7 @@ class ConfigProvider
                     'Phapi\Services'      => '/app/services/',
                     'Phapi\Routes'        => '/app/routes/',
                     'Phapi\Utility'       => '/app/utility/',
+                    'Phapi\Repository'    => '/app/repository/',
                 ]
             ]
         );

@@ -17,7 +17,8 @@
     "ext-intl": "*",
     "ext-json": "*",
     "monolog/monolog": "~2.2",
-    "firebase/php-jwt": "~5.2"
+    "firebase/php-jwt": "~5.2",
+    "milanpasic92/phalcon-repositories": "dev-master"
   },
   "require-dev": {
     "phalcon/ide-stubs": "~4.1"
@@ -31,7 +32,10 @@
       "Phapi\\Services\\": "app/services/",
       "Phapi\\Routes\\": "app/routes/",
       "Phapi\\Utility\\": "app/utility/",
+      "Phapi\\Repository\\": "app/repository/",
       "Phapi\\": "app/"
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

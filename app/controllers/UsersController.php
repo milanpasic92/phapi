@@ -5,6 +5,7 @@ namespace Phapi\Controllers;
 use Phalcon\Paginator\Adapter\Model;
 use Phapi\Application\ApiResponse;
 use Phapi\Models\AdminUser;
+use Phapi\Repository\UsersRepository;
 
 class UsersController extends BaseController
 {
@@ -46,7 +47,8 @@ class UsersController extends BaseController
      */
     public function addAction()
     {
-        return new ApiResponse('ce bude');
+        $usersRepo = new UsersRepository(new AdminUser());
+        return new ApiResponse($usersRepo->test());
     }
 
     /**

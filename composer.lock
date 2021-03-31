@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f084f5fa314bb0a8673f5e27be4c7922",
+    "content-hash": "607e3a8f8ac4870eef34b1ad547fb213",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -55,6 +55,50 @@
                 "php"
             ],
             "time": "2021-02-12T00:02:00+00:00"
+        },
+        {
+            "name": "milanpasic92/phalcon-repositories",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/milanpasic92/phalcon-repositories.git",
+                "reference": "4e7d19b21c010412b436227cf83631d5e5d174fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/milanpasic92/phalcon-repositories/zipball/4e7d19b21c010412b436227cf83631d5e5d174fb",
+                "reference": "4e7d19b21c010412b436227cf83631d5e5d174fb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicheleAngioni\\PhalconRepositories\\": "src/PhalconRepositories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Pasic",
+                    "email": "milanpasic92@gmail.com"
+                }
+            ],
+            "description": "A library which simplifies the use of the Repository pattern in Phalcon.",
+            "keywords": [
+                "phalcon",
+                "repo",
+                "repositories"
+            ],
+            "time": "2021-03-31T11:46:52+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -261,9 +305,11 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "milanpasic92/phalcon-repositories": 20
+    },
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "~7.4",
