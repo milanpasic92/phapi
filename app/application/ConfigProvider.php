@@ -7,7 +7,7 @@ use Phalcon\Config;
 class ConfigProvider
 {
 
-    private Config $config;
+    protected Config $config;
 
     public function get()
     {
