@@ -39,11 +39,6 @@ class App
         }
 
         require_once ROOT . '/vendor/autoload.php';
-
-        $configProvider = new ConfigProvider();
-        $this->config = $this->config = $configProvider->get();
-
-        $this->registerNamespaces();
         ErrorHandler::run();
     }
 
@@ -69,6 +64,11 @@ class App
     public function run()
     {
         $di = new FactoryDefault();
+
+        $configProvider = new ConfigProvider();
+        $this->config = $configProvider->get();
+
+        $this->registerNamespaces();
 
         $registry = new Registry();
         $di->setShared('registry', $registry);
