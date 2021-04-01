@@ -55,7 +55,7 @@ class AuthMiddleware
 
         $tokenValidityInSeconds = $expireAt - $issuedAt;
 
-        if ($issuedAt + ($tokenValidityInSeconds / 2) > time()) {
+        if ($issuedAt + ($tokenValidityInSeconds / 2) < time()) {
             // if half the time has passed since the token was issued, re-issue new token for same user
             $token = Auth::issue((array)$payload->data);
         }
