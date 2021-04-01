@@ -6,19 +6,9 @@ use Phalcon\Config;
 
 class ConfigProvider
 {
-
     protected Config $config;
 
-    public function get()
-    {
-        if (!isset($this->config)) {
-            $this->init();
-        }
-
-        return $this->config;
-    }
-
-    private function init()
+    public function __construct()
     {
         $this->config = new Config(
             [
@@ -66,5 +56,4 @@ class ConfigProvider
             ]
         );
     }
-
 }
