@@ -8,6 +8,10 @@ class ConfigProvider
 {
     protected Config $config;
 
+    public function get(){
+        return $this->config;
+    }
+
     public function __construct()
     {
         $this->config = new Config(
