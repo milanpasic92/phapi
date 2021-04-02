@@ -11,11 +11,23 @@ class Repository extends AbstractRepository
     protected $user;
     protected $modelsManager;
 
+    protected array $memoryCache;
+
     public function __construct($model)
     {
         $di = \Phalcon\DI::getDefault();
 
         $this->model = $model;
         $this->di = $di;
+
+        $this->memoryCache = [];
+    }
+
+    public function getById(int $id)
+    {
+        if(!isset($this->memoryCache[$id])){
+            $this->memoryCache[$id] = $this->model::findFirst($id);
+        }
+        return $this->memoryCache[$id];
     }
 }

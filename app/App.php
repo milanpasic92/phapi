@@ -78,6 +78,11 @@ class App
         $di->setShared('logger', new Logger());
         $di->setShared('acl', new ACL());
 
+        $di->setShared('repo', function ($repo, $model){
+            $repoClass = "\Phapi\Repository\\$repo";
+            return new $repoClass($model);
+        });
+
         try {
             $this->app = new Micro();
             $this->app->setDI($di);

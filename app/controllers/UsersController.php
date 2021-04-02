@@ -16,6 +16,14 @@ class UsersController extends BaseController
      */
     public function indexAction()
     {
+
+        $repo = $this->di->get('repo', ['UsersRepository', new AdminUser()]);
+
+        $users[] = $repo->getById(2);
+        $users[] = $repo->getById(2);
+        $users[] = $repo->getById(2);
+        $users[] = $repo->getById(2);
+
         $limit = $this->request->getQuery('limit', 'int', 10);
         $page = $this->request->getQuery('page', 'int', 1);
 
