@@ -9,10 +9,16 @@ It provides skeleton project structure and few common needed modules and compone
  - Logger (currently supports slack and loggly agents)
  - Profiler
  - ACL
- - *Repository layer
+ - Repository layer (with some limited in-memory caching layer)
  - JWT auth implementation for issuing and/or verifying tokens
+ - EventsManager
+ - Registry
  - *Model caching layer via annotations
- 
+
+
+As it relies heavily on phalcon4, please check the docs: https://docs.phalcon.io/4.0/en/introduction
+
+The project uses custom Dockerfile for building the app and managing all sys dependencies. The base image is debian 10, and php and phalcon versions are customizable.
  
 The project implements open-source JSON:API specification and all response/requests formats have been structured per:
 [https://jsonapi.org/format/](https://jsonapi.org/format/)
