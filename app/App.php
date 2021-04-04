@@ -65,25 +65,25 @@ class App
     {
         $di = new FactoryDefault();
 
-        $configProvider = new ConfigProvider();
-        $this->config = $configProvider->get();
-
-        $this->registerNamespaces();
-
-        $registry = new Registry();
-        $di->setShared('registry', $registry);
-
-        $di->setShared('config', $this->config);
-        $di->setShared("rest", new Rest());
-        $di->setShared('logger', new Logger());
-        $di->setShared('acl', new ACL());
-
-        $di->setShared('repo', function ($repo, $model){
-            $repoClass = "\Phapi\Repository\\$repo";
-            return new $repoClass($model);
-        });
-
         try {
+            $configProvider = new ConfigProvider();
+            $this->config = $configProvider->get();
+
+            $this->registerNamespaces();
+
+            $registry = new Registry();
+            $di->setShared('registry', $registry);
+
+            $di->setShared('config', $this->config);
+            $di->setShared("rest", new Rest());
+            $di->setShared('logger', new Logger());
+            $di->setShared('acl', new ACL());
+
+            $di->setShared('repo', function ($repo, $model){
+                $repoClass = "\Phapi\Repository\\$repo";
+                return new $repoClass($model);
+            });
+
             $this->app = new Micro();
             $this->app->setDI($di);
 
