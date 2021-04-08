@@ -56,6 +56,9 @@ class Rest extends Injectable
         }
 
         $this->response->setContent(json_encode($content));
-        $this->response->send();
+        if(!$this->response->isSent()) {
+            $this->response->send();
+        }
+        exit;
     }
 }
