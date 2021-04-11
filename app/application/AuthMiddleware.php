@@ -12,8 +12,8 @@ use Phapi\Utility\Auth;
 
 class AuthMiddleware
 {
-    private Micro $app;
-    private $di;
+    protected Micro $app;
+    protected $di;
 
     public function __construct(Micro $app)
     {
@@ -66,7 +66,7 @@ class AuthMiddleware
         return $this->aclAllows($apiUser);
     }
 
-    private function aclAllows($apiUser)
+    protected function aclAllows($apiUser)
     {
         $arrHandler = $this->app->getActiveHandler();
         $controllerArr = explode('Controllers\\', $arrHandler[0]->getDefinition());
