@@ -21,7 +21,8 @@ class RestClient{
         try {
             $request = $this->client->request('GET', $route, [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $this->di->get('user')->token
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->di->get('user')->token,
                 ]
             ]);
 
