@@ -1,11 +1,10 @@
 <?php
 
-namespace Phapi\Services;
+namespace Phapi\Application;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Phalcon\Di;
-use Phapi\Application\ApiError;
 
 class RestClient{
 
