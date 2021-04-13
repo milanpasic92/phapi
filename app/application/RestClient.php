@@ -1,6 +1,6 @@
 <?php
 
-namespace LearningKey\Services;
+namespace Phapi\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
