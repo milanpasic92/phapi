@@ -3,6 +3,7 @@
 namespace Phapi\Application;
 
 use Phalcon\DI;
+use Phapi\Exceptions\ContentTypeException;
 
 class ContentNegotiationMiddleware
 {
@@ -20,6 +21,9 @@ class ContentNegotiationMiddleware
                     }
                 }
             }
+        }
+        else{
+            throw new ContentTypeException();
         }
     }
 }

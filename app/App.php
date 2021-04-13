@@ -14,6 +14,7 @@ use Phapi\Application\ACL;
 use Phapi\Application\AuthMiddleware;
 use Phapi\Application\ConfigProvider;
 use Phapi\Application\ContentNegotiationMiddleware;
+use Phapi\Application\CorsMiddleware;
 use Phapi\Application\ErrorHandler;
 use Phapi\Application\Logger;
 use Phapi\Application\Rest;
@@ -169,6 +170,7 @@ class App
         $eventsManager = new Manager();
 
         $eventsManager->attach('micro:beforeExecuteRoute', new ContentNegotiationMiddleware());
+        $eventsManager->attach('micro:beforeHandleRoute', new CorsMiddleware());
         $eventsManager->attach('micro:beforeExecuteRoute', new AuthMiddleware($this->app));
 
         $this->app->setEventsManager($eventsManager);
