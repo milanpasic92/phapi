@@ -18,14 +18,13 @@ class RestClient{
     }
 
     public function get($route){
-        $client = new Client([]);
-
         try {
-            $request = $client->request('GET', $route, [
+            $request = $this->client->request('GET', $route, [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->di->get('user')->token
                 ]
             ]);
+
             $data = $request->getBody()->getContents();
             return json_decode($data);
         }
