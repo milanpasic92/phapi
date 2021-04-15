@@ -70,6 +70,7 @@ class App
             $configProvider = new ConfigProvider();
             $this->config = $configProvider->get();
 
+            $this->handlePreflight();
             $this->registerNamespaces();
 
             $registry = new Registry();
@@ -174,5 +175,13 @@ class App
         $eventsManager->attach('micro:beforeExecuteRoute', new AuthMiddleware($this->app));
 
         $this->app->setEventsManager($eventsManager);
+    }
+
+    protected function handlePreflight(){
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            header('Access-Control-Allow-Origin: *');
+            header('Access-Control-Allow-Headers: *');
+            exit;
+        }
     }
 }
