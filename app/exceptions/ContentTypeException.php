@@ -16,7 +16,8 @@ class ContentTypeException extends BaseException
             'errors' => [
                 [
                     'err_key' => 'invalid_content_type',
-                    'message' => 'Payload format is in an unsupported format. Content-Type `application/json` supported only.'
+                    'message' => 'Payload format is in an unsupported format. Content-Type `application/json` supported only.',
+                    'details' => ''
                 ]
             ],
             'meta' => [
