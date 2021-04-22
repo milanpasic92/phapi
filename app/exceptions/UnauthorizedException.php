@@ -16,15 +16,14 @@ class UnauthorizedException extends BaseException
             'errors' => [
                 [
                     'err_key' => 'unauthorized',
-                    'message' => 'JWT token expired or invalid'
+                    'message' => 'JWT token expired or invalid',
+                    'details' => ''
                 ]
             ],
             'meta' => [
                 'status_code' => 401
             ]
         ];
-
-        $di->get('logger')->log($data);
 
         $response = new ApiError($data['errors'], $data['meta']);
         $di->get('rest')->sendResponse($response);

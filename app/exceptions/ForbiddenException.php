@@ -25,8 +25,6 @@ class ForbiddenException extends BaseException
             ]
         ];
 
-        $di->get('logger')->log($data);
-
         $response = new ApiError($data['errors'], $data['meta']);
         $di->get('rest')->sendResponse($response);
     }

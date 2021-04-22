@@ -28,15 +28,19 @@ class BaseException extends Exception
         $data = [
             'errors' => [
                 [
-                    'message' => $this->getMessage(),
-                    'code' => $this->getCode(),
-                    'file' => $this->file,
-                    'severity' => $this->severity,
-                    'line' => $this->line
+                    'err_key' => 'internal_error',
+                    'message' => 'Internal API error',
+                    'details' => [
+                        'message' => $this->getMessage(),
+                        'code' => $this->getCode(),
+                        'file' => $this->file,
+                        'severity' => $this->severity,
+                        'line' => $this->line
+                    ],
                 ]
             ],
             'meta' => [
-                'status_code' => 400
+                'status_code' => 418
             ]
         ];
 

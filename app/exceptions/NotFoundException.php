@@ -16,15 +16,14 @@ class NotFoundException extends BaseException
             'errors' => [
                 [
                     'err_key' => 'route_not_fond',
-                    'message' => 'Route not found'
+                    'message' => 'Route not found',
+                    'details' => ''
                 ]
             ],
             'meta' => [
                 'status_code' => 404
             ]
         ];
-
-        $di->get('logger')->log($data);
 
         $response = new ApiError($data['errors'], $data['meta']);
         $di->get('rest')->sendResponse($response);
