@@ -3,13 +3,14 @@
 namespace Phapi\Application;
 
 use MicheleAngioni\PhalconRepositories\AbstractRepository;
+use Phalcon\Mvc\Model\Manager;
 
 class Repository extends AbstractRepository
 {
     protected $model;
     protected $di;
     protected $user;
-    protected $modelsManager;
+    protected Manager $modelsManager;
 
     protected array $memoryCache;
 
@@ -19,6 +20,9 @@ class Repository extends AbstractRepository
 
         $this->model = $model;
         $this->di = $di;
+        $this->user = $di->get('user')->data;
+        $this->modelsManager = new Manager();
+        $this->modelsManager->setDI($this->di);
 
         $this->memoryCache = [];
     }
