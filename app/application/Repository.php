@@ -9,7 +9,6 @@ class Repository extends AbstractRepository
 {
     protected $model;
     protected $di;
-    protected $user;
     protected Manager $modelsManager;
 
     protected array $memoryCache;
@@ -20,7 +19,6 @@ class Repository extends AbstractRepository
 
         $this->model = $model;
         $this->di = $di;
-        $this->user = $di->get('user')->data;
         $this->modelsManager = new Manager();
         $this->modelsManager->setDI($this->di);
 
