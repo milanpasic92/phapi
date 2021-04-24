@@ -7,6 +7,16 @@ use Phapi\Application\ApiError;
 
 class NotFoundException extends BaseException
 {
+    protected $err_key;
+    protected $message;
+
+    public function __construct($err_key = "route_not_fond", $message = "Route not found")
+    {
+        $this->err_key = $err_key;
+        $this->message = $message;
+
+        parent::__construct($message);
+    }
 
     public function handle()
     {
@@ -15,8 +25,8 @@ class NotFoundException extends BaseException
         $data = [
             'errors' => [
                 [
-                    'err_key' => 'route_not_fond',
-                    'message' => 'Route not found',
+                    'err_key' => $this->err_key,
+                    'message' => $this->message,
                     'details' => ''
                 ]
             ],
