@@ -9,8 +9,8 @@ class CorsMiddleware
 {
     public function beforeHandleRoute(Event $event, Micro $application)
     {
-        if ($application->di->get('rest')->request->getHeader('Origin')) {
-            $origin = $application->di->get('rest')->request->getHeader('Origin');
+        if ($application->di->get('rest')->request->getHeader('X-Origin')) {
+            $origin = $application->di->get('rest')->request->getHeader('X-Origin');
         } else {
             $origin = '*';
         }
