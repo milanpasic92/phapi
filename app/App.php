@@ -70,7 +70,6 @@ class App
             $configProvider = new ConfigProvider();
             $this->config = $configProvider->get();
 
-            $this->handlePreflight();
             $this->registerNamespaces();
 
             $registry = new Registry();
@@ -80,6 +79,8 @@ class App
             $di->setShared("rest", new Rest());
             $di->setShared('logger', new Logger());
             $di->setShared('acl', new ACL());
+
+            $this->handlePreflight();
 
             $di->setShared('repo', function ($repo, $model){
                 $repoClass = "\Phapi\Repository\\$repo";
@@ -178,10 +179,25 @@ class App
     }
 
     protected function handlePreflight(){
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-            header('Access-Control-Allow-Origin: *');
-            header('Access-Control-Allow-Headers: *');
-            exit;
+        $di = DI::getDefault();
+
+        if ($di->get('rest')->request->getHeader('Origin')) {
+            $origin = $di->get('rest')->request->getHeader('Origin');
+        } else {
+            $origin = '*';
         }
+
+        $di->get('rest')->response->setHeader('Access-Control-Allow-Origin', $origin)
+            ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, *')
+            ->setHeader('Access-Control-Allow-Credentials', 'true');
+
+        $di->get('rest')->response->setStatusCode(200, 'OK');
+        $di->get('rest')->response->sendHeaders();
+
+        if(!$di->get('rest')->response->isSent()) {
+            $di->get('rest')->response->send();
+        }
+        exit;
     }
 }
