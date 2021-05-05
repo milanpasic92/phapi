@@ -188,8 +188,8 @@ class App
             if ($request->getHeader('Origin')) {
                 $origin = $request->getHeader('Origin');
             }
-            else if($request->getHeader('X-Origin')){
-                $origin = $request->getHeader('X-Origin');
+            else if($request->getHeader('x-origin')){
+                $origin = $request->getHeader('x-origin');
             }
             else {
                 $origin = '*';
@@ -197,7 +197,7 @@ class App
 
             $response->setHeader('Access-Control-Allow-Origin', $origin)
                 ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-                ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, X-Origin, *')
+                ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, x-origin, *')
                 ->setHeader('Access-Control-Allow-Credentials', 'true');
 
             $response->setStatusCode(200, 'OK');
