@@ -185,8 +185,8 @@ class App
         $response = $di->get('rest')->response;
 
         if ($request->getMethod() == 'OPTIONS') {
-            if ($request->getHeader('Origin')) {
-                $origin = $request->getHeader('Origin');
+            if ($request->getHeader('X-Origin')) {
+                $origin = $request->getHeader('X-Origin');
             } else {
                 $origin = '*';
             }

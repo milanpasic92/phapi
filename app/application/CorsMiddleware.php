@@ -9,15 +9,15 @@ class CorsMiddleware
 {
     public function beforeHandleRoute(Event $event, Micro $application)
     {
-        if ($application->di->get('rest')->request->getHeader('Origin')) {
-            $origin = $application->di->get('rest')->request->getHeader('Origin');
+        if ($application->di->get('rest')->request->getHeader('X-Origin')) {
+            $origin = $application->di->get('rest')->request->getHeader('X-Origin');
         } else {
             $origin = '*';
         }
 
         $application->di->get('rest')->response->setHeader('Access-Control-Allow-Origin', $origin)
             ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, *')
+            ->setHeader('Access-Control-Allow-Headers', '*')
             ->setHeader('Access-Control-Allow-Credentials', 'true');
 
         $application->di->get('rest')->response->sendHeaders();
