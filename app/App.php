@@ -184,7 +184,7 @@ class App
         $request = $di->get('rest')->request;
         $response = $di->get('rest')->response;
 
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        if ($request->getMethod() == 'OPTIONS') {
             if ($request->getHeader('Origin')) {
                 $origin = $request->getHeader('Origin');
             } else {
@@ -193,7 +193,7 @@ class App
 
             $response->setHeader('Access-Control-Allow-Origin', $origin)
                 ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-                ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, *')
+                ->setHeader('Access-Control-Allow-Headers', '*')
                 ->setHeader('Access-Control-Allow-Credentials', 'true');
 
             $response->setStatusCode(200, 'OK');
