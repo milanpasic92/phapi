@@ -184,9 +184,11 @@ class App
         $request = $di->get('rest')->request;
         $response = $di->get('rest')->response;
 
+        // on OPTIONS only method `Origin` header should be listened
+        // all other methods are handled with `X-Origin` header
         if ($request->getMethod() == 'OPTIONS') {
-            if ($request->getHeader('X-Origin')) {
-                $origin = $request->getHeader('X-Origin');
+            if ($request->getHeader('Origin')) {
+                $origin = $request->getHeader('Origin');
             } else {
                 $origin = '*';
             }
