@@ -187,7 +187,11 @@ class App
         if ($request->getMethod() == 'OPTIONS') {
             if ($request->getHeader('Origin')) {
                 $origin = $request->getHeader('Origin');
-            } else {
+            }
+            else if($request->getHeader('X-Origin')){
+                $origin = $request->getHeader('X-Origin');
+            }
+            else {
                 $origin = '*';
             }
 
