@@ -181,24 +181,28 @@ class App
 
     protected function handlePreflight(){
         $di = Di::getDefault();
+        $request = $di->get('rest')->request;
+        $response = $di->get('rest')->response;
 
-        if ($di->get('rest')->request->getHeader('Origin')) {
-            $origin = $di->get('rest')->request->getHeader('Origin');
-        } else {
-            $origin = '*';
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            if ($request->getHeader('Origin')) {
+                $origin = $request->getHeader('Origin');
+            } else {
+                $origin = '*';
+            }
+
+            $response->setHeader('Access-Control-Allow-Origin', $origin)
+                ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+                ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, *')
+                ->setHeader('Access-Control-Allow-Credentials', 'true');
+
+            $response->setStatusCode(200, 'OK');
+            $response->sendHeaders();
+
+            if(!$response->isSent()) {
+                $response->send();
+            }
+            exit;
         }
-
-        $di->get('rest')->response->setHeader('Access-Control-Allow-Origin', $origin)
-            ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, *')
-            ->setHeader('Access-Control-Allow-Credentials', 'true');
-
-        $di->get('rest')->response->setStatusCode(200, 'OK');
-        $di->get('rest')->response->sendHeaders();
-
-        if(!$di->get('rest')->response->isSent()) {
-            $di->get('rest')->response->send();
-        }
-        exit;
     }
 }
