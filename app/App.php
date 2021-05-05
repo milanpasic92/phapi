@@ -5,6 +5,7 @@ namespace Phapi;
 use Phalcon\Config;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Profiler;
+use Phalcon\Di;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Events\Manager;
 use Phalcon\Loader;
@@ -179,7 +180,7 @@ class App
     }
 
     protected function handlePreflight(){
-        $di = DI::getDefault();
+        $di = Di::getDefault();
 
         if ($di->get('rest')->request->getHeader('Origin')) {
             $origin = $di->get('rest')->request->getHeader('Origin');
