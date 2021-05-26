@@ -49,10 +49,7 @@ class AuthMiddleware
 
             $issuedAt = $payload->iat;
             $expireAt = $payload->exp;
-        } catch (BaseException $e) {
-            throw new UnauthorizedException();
-        }
-        catch (\UnexpectedValueException $e){
+        } catch (BaseException | \UnexpectedValueException $e) {
             throw new UnauthorizedException();
         }
 
