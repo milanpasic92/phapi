@@ -32,6 +32,8 @@ services:
       - 'db_data:/var/lib/mysql/'
     networks:
       - network
+    env_file:
+      - ./.env
   portainer:
     image: portainer/portainer
     container_name: phapi_portainer_container
@@ -43,6 +45,8 @@ services:
       - '${PORTAINER_PORT}:9000'
     networks:
       - network
+    env_file:
+      - ./.env
   adminer:
     image: adminer
     container_name: phapi_adminer_container
@@ -51,6 +55,8 @@ services:
       - '${ADMINER_PORT}:8080'
     networks:
       - network
+    env_file:
+      - ./.env
 networks:
   network:
     driver: bridge

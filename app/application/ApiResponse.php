@@ -4,7 +4,7 @@ namespace Phapi\Application;
 
 use Phalcon\DI;
 
-class ApiResponse
+class ApiResponse implements ResponseInterface
 {
 
     /** @var string|int|array $data */

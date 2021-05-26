@@ -38,18 +38,21 @@ class AuthMiddleware
             return true;
         }
 
-        $token = Auth::getAuthTokenFromHeaders();
-
-        if(!$token){
-            throw new UnauthorizedException();
-        }
-
-        $payload = Auth::parse($token);
-
         try {
+            $token = Auth::getAuthTokenFromHeaders();
+
+            if(!$token){
+                throw new UnauthorizedException();
+            }
+
+            $payload = Auth::parse($token);
+
             $issuedAt = $payload->iat;
             $expireAt = $payload->exp;
         } catch (BaseException $e) {
+            throw new UnauthorizedException();
+        }
+        catch (\UnexpectedValueException $e){
             throw new UnauthorizedException();
         }
 
