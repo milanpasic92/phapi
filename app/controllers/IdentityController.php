@@ -4,6 +4,7 @@ namespace Phapi\Controllers;
 
 use Phapi\Application\ApiResponse;
 use Phapi\Application\ApiUser;
+use Phapi\Application\Response;
 use Phapi\Utility\Auth;
 
 class IdentityController extends BaseController
@@ -11,7 +12,7 @@ class IdentityController extends BaseController
     /**
      * Login
      *
-     * @return ApiResponse
+     * @return Response
      */
     public function loginAction()
     {
@@ -27,7 +28,7 @@ class IdentityController extends BaseController
     /**
      * Password reset
      *
-     * @return ApiResponse
+     * @return Response
      */
     public function passwordResetAction()
     {

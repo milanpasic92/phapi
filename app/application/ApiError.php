@@ -2,7 +2,7 @@
 
 namespace Phapi\Application;
 
-class ApiError implements ResponseInterface
+class ApiError extends Response
 {
     public array $errors;
     public array $meta;

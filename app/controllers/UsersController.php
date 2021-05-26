@@ -4,6 +4,7 @@ namespace Phapi\Controllers;
 
 use Phalcon\Paginator\Adapter\Model;
 use Phapi\Application\ApiResponse;
+use Phapi\Application\Response;
 use Phapi\Models\AdminUser;
 use Phapi\Repository\UsersRepository;
 
@@ -12,7 +13,7 @@ class UsersController extends BaseController
     /**
      * Returns user list
      *
-     * @return ApiResponse
+     * @return Response
      */
     public function indexAction()
     {
@@ -51,7 +52,7 @@ class UsersController extends BaseController
     /**
      * Adding user
      *
-     * @return ApiResponse
+     * @return Response
      */
     public function addAction()
     {
@@ -63,7 +64,7 @@ class UsersController extends BaseController
      * Updating existing user
      *
      * @param int $userId
-     * @return ApiResponse
+     * @return Response
      */
     public function updateAction(int $userId)
     {
@@ -74,7 +75,7 @@ class UsersController extends BaseController
      * Delete an existing user
      *
      * @param int $userId
-     * @return ApiResponse
+     * @return Response
      */
     public function deleteAction(int $userId)
     {
