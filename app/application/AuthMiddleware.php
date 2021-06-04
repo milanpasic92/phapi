@@ -24,8 +24,10 @@ class AuthMiddleware
     /**
      * Checks for Authorization Header, sets ApiUser object to user DI service, and filters roles upon acl list
      * @throws UnauthorizedException
+     * @throws ApiException
+     * @throws ForbiddenException
      */
-    public function beforeExecuteRoute()
+    public function beforeExecuteRoute() : bool
     {
         $route = $this->di->get('rest')->request->getURI();
         $publicApiRoutes = $this->di->get('registry')->get('publicApiRoutes');
@@ -66,7 +68,10 @@ class AuthMiddleware
         return $this->aclAllows($apiUser);
     }
 
-    protected function aclAllows($apiUser)
+    /**
+     * @throws ForbiddenException
+    */
+    protected function aclAllows($apiUser) : bool
     {
         $arrHandler = $this->app->getActiveHandler();
         $controllerArr = explode('Controllers\\', $arrHandler[0]->getDefinition());

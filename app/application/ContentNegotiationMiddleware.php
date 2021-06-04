@@ -20,7 +20,12 @@ class ContentNegotiationMiddleware
                         $_POST[$key] = $value;
                     }
                 }
-            } else {
+            }
+            else if(strpos($contentType, 'multipart/form-data') !== false) {
+                // Post is post xD
+                // $_POST = $_POST;
+            }
+            else {
                 throw new ContentTypeException();
             }
         }
