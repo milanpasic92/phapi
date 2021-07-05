@@ -50,5 +50,4 @@ class BaseException extends Exception
         $response = new ApiError($data['errors'], $data['meta']);
         $di->get('rest')->sendResponse($response);
     }
-
 }
