@@ -32,6 +32,7 @@ class BaseException extends Exception
                     'message' => 'Internal API error',
                     'details' => [
                         'message' => $this->getMessage(),
+                        'trace' => $this->getTrace(),
                         'code' => $this->getCode(),
                         'file' => $this->file,
                         'severity' => $this->severity,
