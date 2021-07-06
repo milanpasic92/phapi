@@ -51,4 +51,3 @@ class BaseException extends Exception
         $di->get('rest')->sendResponse($response);
     }
 }
-
