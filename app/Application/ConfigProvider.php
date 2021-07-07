@@ -48,14 +48,16 @@ class ConfigProvider
                 ],
 
                 'namespaces' => [
-                    'Phapi\Application'   => '/app/application/',
-                    'Phapi\Controllers'   => '/app/controllers/',
-                    'Phapi\Exceptions'    => '/app/exceptions/',
-                    'Phapi\Models'        => '/app/models/',
-                    'Phapi\Services'      => '/app/services/',
-                    'Phapi\Routes'        => '/app/routes/',
-                    'Phapi\Utility'       => '/app/utility/',
-                    'Phapi\Repository'    => '/app/repository/',
+                    'Phapi\Application'   => '/app/Application/',
+                    'Phapi\Controllers'   => '/app/Controllers/',
+                    'Phapi\Dto'           => '/app/Dto/',
+                    'Phapi\Exceptions'    => '/app/Exceptions/',
+                    'Phapi\Models'        => '/app/Models/',
+                    'Phapi\Repository'    => '/app/Repository/',
+                    'Phapi\Routes'        => '/app/Routes/',
+                    'Phapi\Services'      => '/app/Services/',
+                    'Phapi\Utility'       => '/app/Utility/',
+                    'Phapi\Validators'    => '/app/Validators/',
                 ]
             ]
         );
