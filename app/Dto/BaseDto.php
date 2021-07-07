@@ -26,4 +26,5 @@ abstract class BaseDto
             return $dto;
         }
     }
+
 }
