@@ -78,7 +78,7 @@ class App
 
             $di->setShared('config', $this->config);
             $di->setShared("rest", new Rest());
-            $di->setShared('logger', new Logger());
+            $di->setShared('logger', new Logger('phapi'));
             $di->setShared('acl', new ACL());
 
             $this->handlePreflight();

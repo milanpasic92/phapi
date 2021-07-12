@@ -31,7 +31,6 @@ class ConfigProvider
                     'charset'     => getenv('DB_CHARSET'),
                 ],
 
-                /* Not Used */
                 'monolog' => [
                     'loggly'        => getenv('TOKEN_LOGGLY'),
                     'slack'         => getenv('TOKEN_SLACK'),
