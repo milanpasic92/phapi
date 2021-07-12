@@ -41,7 +41,7 @@ class Logger extends Injectable
                 $this->logger->pushHandler($slackHandler);
             }
         } catch (MissingExtensionException $e) {
-            //
+            ////
         }
     }
 
