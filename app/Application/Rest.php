@@ -18,6 +18,9 @@ class Rest extends Injectable
     protected Response $response;
     protected Request $request;
 
+    /** Additional data to be returned in Response in meta part. */
+    public array $additionalData = [];
+
     public function __construct()
     {
         $this->response = new Response();
@@ -25,7 +28,7 @@ class Rest extends Injectable
     }
 
     /**
-     * Sends to the response back to client.
+     * Sends the response back to client.
      *
      * @var ApiResponse|ApiError $response
      */
@@ -50,6 +53,10 @@ class Rest extends Injectable
         }
 
         $content['meta'] = $response->meta;
+
+        foreach ($this->additionalData as $key => $item){
+            $content['meta'][$key] = $item;
+        }
 
         if ($di->get('registry')->get('profilerEnabled')) {
             $content['profiler'] = ApplicationUtil::getProfilerData();

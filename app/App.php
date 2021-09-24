@@ -169,18 +169,17 @@ class App
 
     protected function initEventsManager($di)
     {
-
         $eventsManager = new Manager();
 
-        $eventsManager->attach('micro:beforeExecuteRoute', new ContentNegotiationMiddleware());
         $eventsManager->attach('micro:beforeHandleRoute', new CorsMiddleware());
+        $eventsManager->attach('micro:beforeExecuteRoute', new ContentNegotiationMiddleware());
         $eventsManager->attach('micro:beforeExecuteRoute', new AuthMiddleware($this->app));
 
         $this->app->setEventsManager($eventsManager);
     }
 
     protected function handlePreflight(){
-        $di = Di::getDefault();
+        $di = $this->app->di;
         $request = $di->get('rest')->request;
         $response = $di->get('rest')->response;
 
