@@ -12,9 +12,9 @@ class IdentityController extends BaseController
     /**
      * Login
      *
-     * @return Response
+     * @return ApiResponse
      */
-    public function loginAction()
+    public function loginAction() : ApiResponse
     {
         $matchedUser = $this->rest->request->getPost();
 
@@ -28,9 +28,9 @@ class IdentityController extends BaseController
     /**
      * Password reset
      *
-     * @return Response
+     * @return ApiResponse
      */
-    public function passwordResetAction()
+    public function passwordResetAction() : ApiResponse
     {
         return new ApiResponse('ce bude');
     }

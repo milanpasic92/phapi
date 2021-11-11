@@ -4,7 +4,6 @@ namespace Phapi\Controllers;
 
 use Phalcon\Paginator\Adapter\Model;
 use Phapi\Application\ApiResponse;
-use Phapi\Application\Response;
 use Phapi\Models\AdminUser;
 use Phapi\Repository\UsersRepository;
 
@@ -13,9 +12,9 @@ class UsersController extends BaseController
     /**
      * Returns user list
      *
-     * @return Response
+     * @return ApiResponse
      */
-    public function indexAction()
+    public function indexAction() : ApiResponse
     {
 
         $repo = $this->di->get('repo', ['UsersRepository', new AdminUser()]);
@@ -52,9 +51,9 @@ class UsersController extends BaseController
     /**
      * Adding user
      *
-     * @return Response
+     * @return ApiResponse
      */
-    public function addAction()
+    public function addAction() : ApiResponse
     {
         $usersRepo = new UsersRepository(new AdminUser());
         return new ApiResponse($usersRepo->test());
@@ -64,9 +63,9 @@ class UsersController extends BaseController
      * Updating existing user
      *
      * @param int $userId
-     * @return Response
+     * @return ApiResponse
      */
-    public function updateAction(int $userId)
+    public function updateAction(int $userId) : ApiResponse
     {
         return new ApiResponse('ce bude');
     }
@@ -75,9 +74,9 @@ class UsersController extends BaseController
      * Delete an existing user
      *
      * @param int $userId
-     * @return Response
+     * @return ApiResponse
      */
-    public function deleteAction(int $userId)
+    public function deleteAction(int $userId) : ApiResponse
     {
         return new ApiResponse('ce bude');
     }
