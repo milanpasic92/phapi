@@ -2,6 +2,5 @@
 .phalcon/
 
 vendor/
-certs/
 
 .env

@@ -1,7 +1,7 @@
 {
   "name": "milanpasic92/phapi",
   "type": "framework",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Phalcon API skeleton app",
   "homepage": "https://github.com/milanpasic92/phapi",
   "license": "mit",
@@ -18,8 +18,9 @@
     "ext-json": "*",
     "monolog/monolog": "2.3.0",
     "firebase/php-jwt": "~5.2",
+    "php-amqplib/php-amqplib": "3.0.0",
     "milanpasic92/phalcon-repositories": "dev-master",
-    "guzzlehttp/guzzle": "^7.0"
+    "guzzlehttp/guzzle": "7.4.0"
   },
   "require-dev": {
     "phalcon/ide-stubs": "~4.1"
