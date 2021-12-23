@@ -18,7 +18,8 @@ class ErrorHandler
         register_shutdown_function(function (){
             $error = error_get_last();
 
-            if($error !== NULL) {
+            if($error !== NULL && $error['type'] <= 2) // catch only warnings or lower
+            {
                 $errno = $error["type"];
                 $errfile = $error["file"];
                 $errline = $error["line"];
