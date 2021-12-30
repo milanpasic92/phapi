@@ -13,7 +13,7 @@ class ErrorHandler
         set_error_handler(function ($errno, $errstr, $errfile, $errline) {
             $exception = new BaseException($errstr, 0, $errno, $errfile, $errline);
             $exception->handle();
-        }, E_ALL);
+        }, E_WARNING);
 
         register_shutdown_function(function (){
             $error = error_get_last();
