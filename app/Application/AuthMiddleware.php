@@ -36,7 +36,7 @@ class AuthMiddleware
             throw new ApiException('publicApiRoutes not declared');
         }
 
-        if (in_array($route, $publicApiRoutes)) {
+        if (in_array(strtok($route, '?'), $publicApiRoutes)) {
             return true;
         }
 
