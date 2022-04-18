@@ -8,6 +8,9 @@ use Phapi\Application\ApiError;
 
 class ApiException extends Exception
 {
+    const SILENT_ERRORS = [
+        'service_not_found'
+    ];
 
     public function handle()
     {
@@ -26,7 +29,9 @@ class ApiException extends Exception
             ]
         ];
 
-        $di->get('logger')->log($data);
+        if(!in_array($this->getMessage(), self::SILENT_ERRORS)) {
+            $di->get('logger')->log($data);
+        }
 
         $response = new ApiError($data['errors'], $data['meta']);
         $di->get('rest')->sendResponse($response);
