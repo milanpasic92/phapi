@@ -36,13 +36,15 @@ class AuthMiddleware
             throw new ApiException('publicApiRoutes not declared');
         }
 
-        if (in_array(strtok($route, '?'), $publicApiRoutes)) {
+        $token = Auth::getAuthTokenFromHeaders();
+
+        if (in_array(strtok($route, '?'), $publicApiRoutes) && !$token) {
+            // if public route and token is not sent
             return true;
         }
 
         try {
-            $token = Auth::getAuthTokenFromHeaders();
-
+            // not public route or token is sent
             if(!$token){
                 throw new UnauthorizedException();
             }
