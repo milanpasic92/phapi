@@ -10,12 +10,10 @@ use Phapi\Exceptions\UnauthorizedException;
 
 class Auth
 {
-
     // Currently implementing Sliding expiration
     // https://github.com/jacobslusser/JwtAuthRenewWebApi/blob/master/docs/Sliding-Expiration.md
 
     const ALGO = "HS512";
-    const EXPIRE_DAYS = 1;
 
     public static function issue(array $data)
     {
@@ -26,7 +24,7 @@ class Auth
             "aud" => $config->jwtIssuer,
             "iat" => time(),
             "nbf" => time(),
-            "exp" => time() + (3600 * 24 * self::EXPIRE_DAYS),
+            "exp" => time() + (3600 * 24 * getenv('JWT_EXPIRE_DAYS')),
             "data" => $data
         );
 
