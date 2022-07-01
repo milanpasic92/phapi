@@ -25,6 +25,9 @@ class ContentNegotiationMiddleware
                 // Post is post xD
                 // $_POST = $_POST;
             }
+            else if($contentType === 'text/plain;charset=UTF-8') {
+                // allow text/plain for sentry proxy
+            }
             else {
                 throw new ContentTypeException();
             }
