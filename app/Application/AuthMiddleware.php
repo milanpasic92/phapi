@@ -38,13 +38,13 @@ class AuthMiddleware
 
         $token = Auth::getAuthTokenFromHeaders();
 
-        if (in_array(rtrim(strtok($route, '?'), '/'), $publicApiRoutes) && !$token) {
-            // if public route and token is not sent
+        if (in_array(rtrim(strtok($route, '?'), '/'), $publicApiRoutes)) {
+            // if public route
             return true;
         }
 
         try {
-            // not public route or token is sent
+            // not public route
             if(!$token){
                 throw new UnauthorizedException();
             }
