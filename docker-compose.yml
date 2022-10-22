@@ -34,6 +34,21 @@ services:
       - network
     env_file:
       - ./.env
+  rtt_db: # responseTimeTracking db [optional]
+    image: 'mysql:5.7.22'
+    container_name: rtt_db_container
+    restart: always
+    ports:
+      - '${RTT_DB_PORT}:3306'
+    environment:
+      MYSQL_DATABASE: ${RTT_DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${RTT_DB_PASSWORD}
+    volumes:
+      - 'rtt_db_data:/var/lib/mysql/'
+    networks:
+      - network
+    env_file:
+      - ./.env
   portainer:
     image: portainer/portainer
     container_name: phapi_portainer_container
@@ -62,6 +77,8 @@ networks:
     driver: bridge
 volumes:
   db_data:
+    driver: local
+  rtt_db_data:
     driver: local
   portainer_data:
     driver: local

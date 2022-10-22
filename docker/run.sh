@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-wait-for-it.sh "$DB_HOST":"$DB_PORT" -t 30
+wait-for-it.sh "$DB_HOST":3306 -t 30
 
 mkdir -p .phalcon
 chmod -R 777 .phalcon
 
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" "-p$DB_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME"
+mysql -h "$DB_HOST" -P 3306 -u "$DB_USERNAME" "-p$DB_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME"
 
 php vendor/phalcon/devtools/phalcon.php migration run --force --log-in-db
 

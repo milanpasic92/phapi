@@ -8,7 +8,7 @@ ARG PHP_VERSION=7.4
 
 #add php repositories
 RUN wget -O - https://packages.sury.org/php/apt.gpg | apt-key add -
-RUN echo "deb https://packages.sury.org/php/ buster main" > /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
 
 RUN apt update -y
 
@@ -76,4 +76,4 @@ COPY docker/app.conf /etc/apache2/sites-available/000-default.conf
 
 CMD ["run.sh"]
 
-# docker build -f docker/Dockerfile -t milanpasa/phapi .
+# docker build --no-cache -f docker/Dockerfile -t milanpasa/phapi .

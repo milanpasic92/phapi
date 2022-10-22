@@ -18,6 +18,8 @@ use Phapi\Application\ContentNegotiationMiddleware;
 use Phapi\Application\CorsMiddleware;
 use Phapi\Application\ErrorHandler;
 use Phapi\Application\Logger;
+use Phapi\Application\ResponseTimeTrackingAfterMiddleware;
+use Phapi\Application\ResponseTimeTrackingBeforeMiddleware;
 use Phapi\Application\Rest;
 use Phapi\Exceptions\ApiException;
 use Phapi\Exceptions\BaseException;
@@ -165,6 +167,23 @@ class App
 
             return $connection;
         });
+
+        if(getenv('ENABLE_RESPONSE_TIME_TRACKING')) {
+            $di->setShared("rtt_db", function () use ($di) {
+                $config = $di->get('config');
+
+                $connection = new Mysql(
+                    [
+                        "host" => $config->rtt_database->host,
+                        "username" => $config->rtt_database->username,
+                        "password" => $config->rtt_database->password,
+                        "dbname" => $config->rtt_database->dbname,
+                    ]
+                );
+
+                return $connection;
+            });
+        }
     }
 
     protected function initEventsManager($di)
@@ -174,6 +193,10 @@ class App
         $eventsManager->attach('micro:beforeHandleRoute', new CorsMiddleware());
         $eventsManager->attach('micro:beforeExecuteRoute', new ContentNegotiationMiddleware());
         $eventsManager->attach('micro:beforeExecuteRoute', new AuthMiddleware($this->app));
+        if(getenv('ENABLE_RESPONSE_TIME_TRACKING')) {
+            $eventsManager->attach('micro:beforeExecuteRoute', new ResponseTimeTrackingBeforeMiddleware());
+            $eventsManager->attach('micro:afterExecuteRoute', new ResponseTimeTrackingAfterMiddleware());
+        }
 
         $this->app->setEventsManager($eventsManager);
     }

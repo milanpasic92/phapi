@@ -24,3 +24,6 @@ The project implements open-source JSON:API specification and all response/reque
 [https://jsonapi.org/format/](https://jsonapi.org/format/)
  
 more details to come.
+
+### Dev Info:
+Remember to run `composer-update.sh` (before going `docker-compose up`) if you use default volumes mapping that is already done in `docker-compose.yml` file.

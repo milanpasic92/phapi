@@ -23,12 +23,22 @@ class ConfigProvider
 
                 'database' => [
                     'adapter'     => 'Mysql',
-                    'host'        => getenv('DB_HOST') . ':' . getenv('DB_PORT'),
+                    'host'        => getenv('DB_HOST') . ':3306',
                     'hostname'    => getenv('DB_HOST'),
                     'username'    => getenv('DB_USERNAME'),
                     'password'    => getenv('DB_PASSWORD'),
                     'dbname'      => getenv('DB_NAME'),
                     'charset'     => getenv('DB_CHARSET'),
+                ],
+
+                'rtt_database' => [ // used for response time tracking
+                    'adapter'     => 'Mysql',
+                    'host'        => getenv('RTT_DB_HOST') . ':3306',
+                    'hostname'    => getenv('RTT_DB_HOST'),
+                    'username'    => getenv('RTT_DB_USERNAME'),
+                    'password'    => getenv('RTT_DB_PASSWORD'),
+                    'dbname'      => getenv('RTT_DB_NAME'),
+                    'charset'     => getenv('RTT_DB_CHARSET'),
                 ],
 
                 'monolog' => [
