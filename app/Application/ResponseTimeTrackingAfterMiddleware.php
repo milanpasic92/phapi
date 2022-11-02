@@ -16,6 +16,8 @@ class ResponseTimeTrackingAfterMiddleware
         }
         $data['endedAt'] = hrtime(true);
         $lasted = ($data['endedAt'] - $data['startedAt'])  / 1e+6; // milliseconds
+        // todo: add field for (int) status code
+        // todo: add field for (string) http_method
 
         $db = $di->get('rtt_db');
 

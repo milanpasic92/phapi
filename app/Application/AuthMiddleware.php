@@ -37,37 +37,43 @@ class AuthMiddleware
         }
 
         $token = Auth::getAuthTokenFromHeaders();
+        $publicRoute = in_array(rtrim(strtok($route, '?'), '/'), $publicApiRoutes);
 
-        if (in_array(rtrim(strtok($route, '?'), '/'), $publicApiRoutes)) {
-            // if public route
-            return true;
-        }
+        if($token){
+            try {
+                $payload = Auth::parse($token);
 
-        try {
-            // not public route
-            if(!$token){
+                $issuedAt = $payload->iat;
+                $expireAt = $payload->exp;
+            } catch (BaseException | \UnexpectedValueException $e) {
+                if ($publicRoute) {
+                    // if cli sent token and that token is not valid, treat it like token is not sent at all
+                    return true;
+                }
                 throw new UnauthorizedException();
             }
 
-            $payload = Auth::parse($token);
+            $tokenValidityInSeconds = $expireAt - $issuedAt;
 
-            $issuedAt = $payload->iat;
-            $expireAt = $payload->exp;
-        } catch (BaseException | \UnexpectedValueException $e) {
-            throw new UnauthorizedException();
+            if ($issuedAt + ($tokenValidityInSeconds / 2) < time()) {
+                // if half the time has passed since the token was issued, re-issue new token for same user
+                $token = Auth::issue((array)$payload->data);
+            }
+
+            $apiUser = new ApiUser((array)$payload->data, $token);
+            $this->di->set('user', $apiUser);
+
+            if ($publicRoute) {
+                return true;
+            }
+            return $this->aclAllows($apiUser);
         }
 
-        $tokenValidityInSeconds = $expireAt - $issuedAt;
-
-        if ($issuedAt + ($tokenValidityInSeconds / 2) < time()) {
-            // if half the time has passed since the token was issued, re-issue new token for same user
-            $token = Auth::issue((array)$payload->data);
+        if ($publicRoute) {
+            // if public route
+            return true;
         }
-
-        $apiUser = new ApiUser((array)$payload->data, $token);
-        $this->di->set('user', $apiUser);
-
-        return $this->aclAllows($apiUser);
+        throw new UnauthorizedException();
     }
 
     /**
