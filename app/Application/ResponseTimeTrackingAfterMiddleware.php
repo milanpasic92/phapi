@@ -24,10 +24,12 @@ class ResponseTimeTrackingAfterMiddleware
         // @ToDo: this should be moved to be run on startup
         $test = $db->execute("
             CREATE TABLE IF NOT EXISTS `requests` (
+              `id` INT NOT NULL AUTO_INCREMENT,
               `url` varchar(1024) NOT NULL,
               `timestamp` DATE NOT NULL,
               `duration` DOUBLE(10,2) NOT NULL,
-              `data` LONGTEXT  NULL
+              `data` LONGTEXT  NULL,
+              PRIMARY KEY (`id`)
             );
         ");
 
