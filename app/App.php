@@ -217,10 +217,10 @@ class App
                 $origin = '*';
             }
 
-            $response->setHeader('Access-Control-Allow-Origin', $origin)
+            $response->setHeader('Access-Control-Allow-Origin', '*')
                 ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
                 ->setHeader('Access-Control-Allow-Headers',
-                    'Content-Type, Origin, x-origin, authorization, Cache-Control, *')
+                    'Content-Type, Origin, x-origin, authorization, Cache-Control, x-cypress-is-xhr-or-fetch, *')
                 ->setHeader('Access-Control-Allow-Credentials', 'true');
 
             $response->setStatusCode(200, 'OK');
