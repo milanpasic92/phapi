@@ -225,7 +225,6 @@ class App
                     x-origin, 
                     authorization, 
                     Cache-Control, 
-                    x-cypress-is-xhr-or-fetch, 
                     *'
                 )
                 ->setHeader('Access-Control-Allow-Credentials', 'true');
