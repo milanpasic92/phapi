@@ -217,7 +217,8 @@ class App
                 $origin = '*';
             }
 
-            $response->setHeader('Access-Control-Allow-Origin', '*')
+            // sutra da vidimo da spakujemo origin odgovarajuci za cypress ukoliko se poziva app iz supress-a.
+            $response->setHeader('Access-Control-Allow-Origin', $origin)
                 ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
                 ->setHeader('Access-Control-Allow-Headers',
                     'Content-Type, Origin, x-origin, authorization, Cache-Control, x-cypress-is-xhr-or-fetch, *')
