@@ -53,6 +53,17 @@ class Auth
     {
         $headers = getallheaders();
 
+        /**
+         * Headers should be case INsensitive, as per RFC2616 https://www.w3.org/Protocols/rfc2616/rfc2616.html
+         * tldr on: https://stackoverflow.com/a/5259004/7802520
+         * todo: should think about refactoring the app to use str_toupper everywhere where working with headers.
+        */
+
+        // illiterate cypress framework sends auth header with all small caps
+        if(!isset($headers['Authorization']) && isset($headers['authorization'])) {
+            $headers['Authorization'] = $headers['authorization'];
+        }
+
         if(isset($headers['Authorization']) && !empty($headers['Authorization'])){
             return str_replace('Bearer ', '', $headers['Authorization']);
         }
