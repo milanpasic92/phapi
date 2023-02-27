@@ -201,7 +201,11 @@ class App
         $this->app->setEventsManager($eventsManager);
     }
 
-    protected function handlePreflight(){
+    /**
+     * Adds CORS headers for preflight (OPTIONS) requests.
+    */
+    protected function handlePreflight()
+    {
         $di = $this->app->di;
         $request = $di->get('rest')->request;
         $response = $di->get('rest')->response;
@@ -217,7 +221,6 @@ class App
                 $origin = '*';
             }
 
-            // sutra da vidimo da spakujemo origin odgovarajuci za cypress ukoliko se poziva app iz supress-a.
             $response->setHeader('Access-Control-Allow-Origin', $origin)
                 ->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
                 ->setHeader('Access-Control-Allow-Headers',
