@@ -1,4 +1,4 @@
-FROM debian:10.8
+FROM debian:10.8-slim
 
 RUN apt update -y
 RUN apt-get install -y software-properties-common lsb-release ca-certificates apt-transport-https \

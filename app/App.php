@@ -24,6 +24,7 @@ use Phapi\Application\Rest;
 use Phapi\Exceptions\ApiException;
 use Phapi\Exceptions\BaseException;
 use Phapi\Routes\Routes;
+use Predis\Client;
 
 class App
 {
@@ -82,6 +83,13 @@ class App
             $di->setShared("rest", new Rest());
             $di->setShared('logger', new Logger('phapi'));
             $di->setShared('acl', new ACL());
+
+            $di->setShared('redis', new Client([
+                'scheme'   => 'tcp',
+                'host'     => 'redis',
+                'port'     => 6379,
+                'password' => getenv('REDIS_PASS'),
+            ]));
 
             $this->app = new Micro();
             $this->app->setDI($di);

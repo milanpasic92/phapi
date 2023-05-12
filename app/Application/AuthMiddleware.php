@@ -53,6 +53,10 @@ class AuthMiddleware
                 throw new UnauthorizedException();
             }
 
+            if(getenv('ENABLE_REDIS_BLACKLIST') && $this->isBlacklisted($token)){
+                throw new ForbiddenException();
+            }
+
             $tokenValidityInSeconds = $expireAt - $issuedAt;
 
             if ($issuedAt + ($tokenValidityInSeconds / 2) < time()) {
@@ -74,6 +78,18 @@ class AuthMiddleware
             return true;
         }
         throw new UnauthorizedException();
+    }
+
+    private function isBlacklisted($token) : bool
+    {
+        $cache = $this->di->get('redis');
+
+        if(!$cache->exists('jwt_blacklist')){
+            return false;
+        }
+
+        $blacklist = json_decode($cache->get('jwt_blacklist'));
+        return in_array($token, $blacklist);
     }
 
     /**

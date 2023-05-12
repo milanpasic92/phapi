@@ -13,6 +13,7 @@ It provides skeleton project structure and few common needed modules and compone
  - JWT auth implementation for issuing and/or verifying tokens
  - EventsManager
  - Registry
+ - Redis jwt blacklist
  - *Model caching layer via annotations
 
 

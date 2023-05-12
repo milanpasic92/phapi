@@ -72,6 +72,27 @@ services:
       - network
     env_file:
       - ./.env
+  redis:
+    image: redis:7.0.4-alpine
+    container_name: phapi_redis_container
+    restart: always
+    command: 'redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASS}'
+    volumes:
+      - phapi_redis_cache:/data
+    networks:
+      - network
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      REDIS_HOSTS: redis
+      REDIS_HOST: redis
+      REDIS_PORT: redis:6379
+      REDIS_PASSWORD: ${REDIS_PASS}
+      HTTP_USER: admin
+      HTTP_PASSWORD: voldemort
+    networks:
+      - network
 networks:
   network:
     driver: bridge
@@ -85,4 +106,6 @@ volumes:
   app_data:
     driver: local
   app_backups:
+    driver: local
+  phapi_redis_cache:
     driver: local
