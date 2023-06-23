@@ -12,6 +12,8 @@ use Phapi\Utility\Auth;
 
 class AuthMiddleware
 {
+    public const REDIS_BLACKLIST_KEY = "jwt_blacklist";
+
     protected Micro $app;
     protected $di;
 
@@ -53,7 +55,7 @@ class AuthMiddleware
                 throw new UnauthorizedException();
             }
 
-            if(getenv('ENABLE_REDIS_BLACKLIST') && $this->isBlacklisted($token)){
+            if(getenv('ENABLE_REDIS_BLACKLIST') && $this->isBlacklisted($payload->data)){
                 throw new ForbiddenException();
             }
 
@@ -80,16 +82,16 @@ class AuthMiddleware
         throw new UnauthorizedException();
     }
 
-    private function isBlacklisted($token) : bool
+    private function isBlacklisted($tokenData) : bool
     {
         $cache = $this->di->get('redis');
 
-        if(!$cache->exists('jwt_blacklist')){
+        if(!$cache->exists(self::REDIS_BLACKLIST_KEY)){
             return false;
         }
 
-        $blacklist = json_decode($cache->get('jwt_blacklist'));
-        return in_array($token, $blacklist);
+        $blacklist = json_decode($cache->get(self::REDIS_BLACKLIST_KEY));
+        return in_array($tokenData->id, $blacklist);
     }
 
     /**

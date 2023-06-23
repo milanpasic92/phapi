@@ -70,21 +70,4 @@ class Auth
 
         return false;
     }
-
-    public static function addTokenToBlacklist($token) : void
-    {
-        if(!getenv('ENABLE_REDIS_BLACKLIST')){
-            return;
-        }
-
-        $cache = DI::getDefault()->get('redis');
-
-        $blacklist = [];
-        if($cache->exists('jwt_blacklist')){
-            $blacklist = json_decode($cache->get('jwt_blacklist'));
-        }
-
-        $blacklist[] = $token;
-        $cache->set('jwt_blacklist', json_encode($blacklist));
-    }
 }
