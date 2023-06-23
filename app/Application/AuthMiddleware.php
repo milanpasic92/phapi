@@ -85,13 +85,7 @@ class AuthMiddleware
     private function isBlacklisted($tokenData) : bool
     {
         $cache = $this->di->get('redis');
-
-        if(!$cache->exists(self::REDIS_BLACKLIST_KEY)){
-            return false;
-        }
-
-        $blacklist = json_decode($cache->get(self::REDIS_BLACKLIST_KEY));
-        return in_array($tokenData->id, $blacklist);
+        return $cache->exists(self::REDIS_BLACKLIST_KEY.':'.$tokenData->id);
     }
 
     /**
