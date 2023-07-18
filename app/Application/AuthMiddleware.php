@@ -89,8 +89,8 @@ class AuthMiddleware
     }
 
     /**
-     * @throws ForbiddenException
-    */
+     * @throws UnauthorizedException
+     */
     protected function aclAllows($apiUser) : bool
     {
         $arrHandler = $this->app->getActiveHandler();
@@ -98,13 +98,13 @@ class AuthMiddleware
         $controllerName = end($controllerArr);
 
         if(!isset($apiUser->data['role'])){
-            throw new ForbiddenException('JWT invalid: role claim is missing.');
+            throw new UnauthorizedException('JWT invalid: role claim is missing.');
         }
 
         $isAllowed = $this->di->get('acl')->acl->isAllowed($apiUser->data['role'], $controllerName, $arrHandler[1]);
 
         if (!$isAllowed) {
-            throw new ForbiddenException();
+            throw new UnauthorizedException();
         }
         return true;
     }
